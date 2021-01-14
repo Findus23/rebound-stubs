@@ -4,7 +4,6 @@ from typing import Any, Optional, Dict, List, Tuple, Callable, Union, Literal, I
 
 from rebound import Particle
 from rebound.types import HashType
-from rebound.widget import Widget
 
 EnumDict = Dict[str, int]
 IntBoolean = Literal[0, 1]
@@ -272,7 +271,7 @@ class Simulation(Structure):
 
     visualization: Any = ...
 
-    def getWidget(self, **kwargs: Any) -> Widget: ...
+    def getWidget(self, **kwargs: Any): ...
 
     def refreshWidgets(self) -> None: ...
 
@@ -566,7 +565,7 @@ class reb_display_data(Structure):
     retina: float
 
 
-ParticleKey = Union[c_uint32, c_uint, c_ulong, str, int]
+ParticleKey = Union[c_uint32, c_uint, c_ulong, str, int, slice]
 
 
 class Particles(MutableMapping):
