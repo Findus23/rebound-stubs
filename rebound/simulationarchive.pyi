@@ -15,7 +15,7 @@ class SimulationArchive(Structure):
     tmin: float
     tmax: float
 
-    def __init__(self, filename: Any, setup: Optional[Callable] = ..., setup_args: Sequence = ...,
+    def __init__(self, filename: str, setup: Optional[Callable] = ..., setup_args: Sequence = ...,
                  process_warnings: bool = ..., reuse_index: Optional[SimulationArchive] = ...) -> None: ...
 
     def __del__(self) -> None: ...
