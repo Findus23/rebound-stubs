@@ -54,6 +54,8 @@ class reb_collision(Structure):
     time: float
     ri: int
 
+    def __repr__(self) -> str: ...
+
 
 class reb_simulation_integrator_sei(Structure):
     OMEGA: float
@@ -88,6 +90,8 @@ class reb_simulation_integrator_ias15(Structure):
     _map: _Pointer[int]
     _map_allocated_n: _Pointer[int]
 
+    def __repr__(self) -> str: ...
+
 
 class reb_simulation_integrator_saba(Structure):
     _type: int
@@ -116,6 +120,8 @@ class reb_simulation_integrator_whfast(Structure):
     _allocatedN: int
     _timestep_warning: int
     _recalculate_coordinates_but_not_synchronized_warning: int
+
+    def __repr__(self) -> str: ...
 
     @property
     def coordinates(self) -> str: ...
@@ -217,6 +223,7 @@ class Simulation(Structure):
     _megno_mean_t: float
     _megno_mean_Y: float
     _megno_n: int
+    _rand_seed: int
     simulationarchive_version: int
     simulationarchive_size_first: int
     simulationarchive_size_snapshot: int
@@ -252,6 +259,8 @@ class Simulation(Structure):
     def __new__(cls, *args: Any, **kw: Any): ...
 
     def __init__(self) -> None: ...
+
+    def __repr__(self) -> str: ...
 
     # Deprecated methods
     # @classmethod
@@ -452,6 +461,8 @@ class Simulation(Structure):
 
     def step(self) -> None: ...
 
+    def steps(self, N_steps: int) -> None: ...
+
     # exact_finish_time: int = ...
 
     def integrate(self, tmax: float, exact_finish_time: IntBoolean = ...) -> None: ...
@@ -503,6 +514,8 @@ class reb_simulation_integrator_eos(Structure):
     safe_mode: IntBoolean
     is_synchronized: IntBoolean
 
+    def __repr__(self) -> str: ...
+
     @property
     def phi0(self) -> str: ...
 
@@ -522,10 +535,11 @@ class reb_simulation_integrator_mercurius(Structure):
     recalculate_coordinates_this_timestep: IntBoolean
     recalculate_dcrit_this_timestep: IntBoolean
     safe_mode: IntBoolean
-    _is_synchronized: IntBoolean
+    is_synchronized: IntBoolean
     mode: int
     _encounterN: int
     _encounterNactive: int
+    _tponly_encounter: int
     _allocatedN: int
     _allocatedN_additionalforces: int
     _dcrit_allocatedN: int
@@ -535,6 +549,8 @@ class reb_simulation_integrator_mercurius(Structure):
     _encounter_map: _Pointer[int]
     _com_pos: reb_vec3d
     _com_vel: reb_vec3d
+
+    def __repr__(self) -> str: ...
 
 
 class timeval(Structure):

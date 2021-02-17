@@ -18,11 +18,11 @@ setup(
     maintainer_email="rebound-stubs@lw1.at",
     description="type stubs for Rebound",
     license="GPL",
-    version="3.13.0",
+    version="3.16.0",
     packages=["rebound-stubs"],
     # PEP 561 requires these
     install_requires=[
-        "rebound>=3.13.0",
+        "rebound>=3.16.0",
     ],
     package_data=find_stubs("rebound-stubs"),
     zip_safe=False,
