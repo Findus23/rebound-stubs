@@ -1,4 +1,5 @@
-from ctypes import c_uint32, Union, c_uint, c_ulong
+from ctypes import c_uint32, c_uint, c_ulong
+from typing import Union
 
 from .types import HashType
 

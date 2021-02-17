@@ -1,7 +1,7 @@
 from ctypes import c_uint32
 from typing import Dict, Sequence
 
-from rebound import Particle
+from . import Particle
 
 
 def hash_to_unit(hash: c_uint32) -> str: ...

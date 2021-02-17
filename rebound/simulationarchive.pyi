@@ -3,8 +3,8 @@ from typing import Any, Optional, Callable, Sequence, Iterator, Literal, Iterabl
 
 import numpy as np
 
-from rebound import Simulation
-from rebound.simulation import IntBoolean
+from . import Simulation
+from .types import IntBoolean
 
 
 class SimulationArchive(Structure):

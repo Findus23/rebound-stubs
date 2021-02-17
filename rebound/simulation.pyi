@@ -1,12 +1,9 @@
 from collections import MutableMapping
-from ctypes import Structure, POINTER, c_void_p, c_uint, c_uint32, c_ulong
+from ctypes import Structure, _Pointer, c_void_p, c_uint, c_uint32, c_ulong, Array, c_double
 from typing import Any, Optional, Dict, List, Tuple, Callable, Union, Literal, Iterator
 
-from rebound import Particle
-from rebound.types import HashType
-
-EnumDict = Dict[str, int]
-IntBoolean = Literal[0, 1]
+from . import Particle
+from .types import HashType, EnumDict, IntBoolean
 
 INTEGRATORS: EnumDict
 BOUNDARIES: EnumDict
@@ -20,7 +17,7 @@ EOS_TYPES: EnumDict
 BINARY_WARNINGS: List[Tuple[bool, int, str]]
 
 
-class reb_hash_pointer_pair(Structure):
+class reb_hash__Pointer_pair(Structure):
     hash: int
     index: int
 
@@ -32,13 +29,13 @@ class reb_vec3d(Structure):
 
 
 class reb_dp7(Structure):
-    p0: POINTER(float)
-    p1: POINTER(float)
-    p2: POINTER(float)
-    p3: POINTER(float)
-    p4: POINTER(float)
-    p5: POINTER(float)
-    p6: POINTER(float)
+    p0: _Pointer[float]
+    p1: _Pointer[float]
+    p2: _Pointer[float]
+    p3: _Pointer[float]
+    p4: _Pointer[float]
+    p5: _Pointer[float]
+    p6: _Pointer[float]
 
 
 class reb_ghostbox(Structure):
@@ -75,21 +72,21 @@ class reb_simulation_integrator_ias15(Structure):
     neworder: int
     _iterations_max_exceeded: int
     _allocatedN: int
-    _at: POINTER(float)
-    _x0: POINTER(float)
-    _v0: POINTER(float)
-    _a0: POINTER(float)
-    _csx: POINTER(float)
-    _csv: POINTER(float)
-    _csa0: POINTER(float)
+    _at: _Pointer[float]
+    _x0: _Pointer[float]
+    _v0: _Pointer[float]
+    _a0: _Pointer[float]
+    _csx: _Pointer[float]
+    _csv: _Pointer[float]
+    _csa0: _Pointer[float]
     _g: reb_dp7
     _b: reb_dp7
     _csb: reb_dp7
     _e: reb_dp7
     _br: reb_dp7
     _er: reb_dp7
-    _map: POINTER(int)
-    _map_allocated_n: POINTER(int)
+    _map: _Pointer[int]
+    _map_allocated_n: _Pointer[int]
 
 
 class reb_simulation_integrator_saba(Structure):
@@ -112,8 +109,8 @@ class reb_simulation_integrator_whfast(Structure):
     _coordinates: int
     recalculate_coordinates_this_timestep: IntBoolean
     safe_mode: IntBoolean
-    _p_jh: POINTER(Particle)
-    _p_temp: POINTER(Particle)
+    _p_jh: _Pointer[Particle]
+    _p_temp: _Pointer[Particle]
     keep_unsynchronized: IntBoolean
     is_synchronized: IntBoolean
     _allocatedN: int
@@ -163,16 +160,16 @@ class Simulation(Structure):
     N: int
     N_var: int
     var_config_N: int
-    var_config: POINTER(Variation)
+    var_config: _Pointer[Variation]
     N_active: int
     testparticle_type: int
-    _particle_lookup_table: POINTER(reb_hash_pointer_pair)
+    _particle_lookup_table: _Pointer[reb_hash__Pointer_pair]
     hash_ctr: int
     N_lookup: int
     allocatedN_lookup: int
     allocated_N: int
-    _particles: POINTER(Particle)
-    gravity_cs: POINTER(reb_vec3d)
+    _particles: _Pointer[Particle]
+    gravity_cs: _Pointer[reb_vec3d]
     gravity_cs_allocatedN: int
     _tree_root: c_void_p
     _tree_needs_update: int
@@ -188,7 +185,7 @@ class Simulation(Structure):
     exit_max_distance: float
     exit_min_distance: float
     usleep: float
-    display_data: POINTER(reb_display_data)
+    display_data: _Pointer[reb_display_data]
     track_energy_offset: int
     energy_offset: float
     walltime: float
@@ -210,7 +207,7 @@ class Simulation(Structure):
     collisions_allocatedN: int
     minimum_collision_velocity: float
     collisions_plog: float
-    max_radius: float * 2
+    max_radius: Array[c_double]
     collisions_Nlog: int
     _calculate_megno: int
     _megno_Ys: float
@@ -241,20 +238,18 @@ class Simulation(Structure):
     ri_mercurius: reb_simulation_integrator_mercurius
     ri_janus: reb_simulation_integrator_janus
     ri_eos: reb_simulation_integrator_eos
-    # _additional_forces: CFUNCTYPE(None, POINTER(Simulation))
-    # _pre_timestep_modifications: CFUNCTYPE(None, POINTER(Simulation))
-    # _post_timestep_modifications: CFUNCTYPE(None, POINTER(Simulation))
-    # _heartbeat: CFUNCTYPE(None, POINTER(Simulation))
-    # _display_heartbeat: CFUNCTYPE(None, POINTER(Simulation))
-    # _coefficient_of_restitution: CFUNCTYPE(float, POINTER(Simulation), float)
-    # _collision_resolve: CFUNCTYPE(int, POINTER(Simulation), reb_collision)
-    # _free_particle_ap: CFUNCTYPE(None, POINTER(Particle))
-    # _extras_cleanup: CFUNCTYPE(None, POINTER(Simulation))
+    # _additional_forces: CFUNCTYPE(None, _Pointer[Simulation])
+    # _pre_timestep_modifications: CFUNCTYPE(None, _Pointer[Simulation])
+    # _post_timestep_modifications: CFUNCTYPE(None, _Pointer[Simulation])
+    # _heartbeat: CFUNCTYPE(None, _Pointer[Simulation])
+    # _display_heartbeat: CFUNCTYPE(None, _Pointer[Simulation])
+    # _coefficient_of_restitution: CFUNCTYPE(float, _Pointer[Simulation], float)
+    # _collision_resolve: CFUNCTYPE(int, _Pointer[Simulation], reb_collision)
+    # _free_particle_ap: CFUNCTYPE(None, _Pointer[Particle])
+    # _extras_cleanup: CFUNCTYPE(None, _Pointer[Simulation])
     extras: c_void_p
 
     def __new__(cls, *args: Any, **kw: Any): ...
-
-    save_messages: int
 
     def __init__(self) -> None: ...
 
@@ -324,31 +319,31 @@ class Simulation(Structure):
     def additional_forces(self) -> None: ...
 
     @additional_forces.setter
-    def additional_forces(self, func: Callable[[POINTER(Simulation)], None]) -> None: ...
+    def additional_forces(self, func: Callable[[_Pointer[Simulation]], None]) -> None: ...
 
     @property
     def pre_timestep_modifications(self) -> None: ...
 
     @pre_timestep_modifications.setter
-    def pre_timestep_modifications(self, func: Callable[[POINTER(Simulation)], None]) -> None: ...
+    def pre_timestep_modifications(self, func: Callable[[_Pointer[Simulation]], None]) -> None: ...
 
     @property
     def post_timestep_modifications(self) -> None: ...
 
     @post_timestep_modifications.setter
-    def post_timestep_modifications(self, func: Callable[[POINTER(Simulation)], None]) -> None: ...
+    def post_timestep_modifications(self, func: Callable[[_Pointer[Simulation]], None]) -> None: ...
 
     @property
     def heartbeat(self) -> None: ...
 
     @heartbeat.setter
-    def heartbeat(self, func: Callable[[POINTER(Simulation)], None]) -> None: ...
+    def heartbeat(self, func: Callable[[_Pointer[Simulation]], None]) -> None: ...
 
     @property
     def coefficient_of_restitution(self) -> None: ...
 
     @coefficient_of_restitution.setter
-    def coefficient_of_restitution(self, func: Callable[[POINTER(Simulation), float], float]) -> None: ...
+    def coefficient_of_restitution(self, func: Callable[[_Pointer[Simulation], float], float]) -> None: ...
 
     @property
     def collision_resolve(self) -> None: ...
@@ -356,14 +351,14 @@ class Simulation(Structure):
     @collision_resolve.setter
     def collision_resolve(self, func: Union[
         Literal["merge:", "hardsphere"],
-        Callable[[POINTER(Simulation), reb_collision], float]
+        Callable[[_Pointer[Simulation], reb_collision], float]
     ]) -> None: ...
 
     @property
     def free_particle_ap(self) -> None: ...
 
     @free_particle_ap.setter
-    def free_particle_ap(self, func: Callable[[POINTER(Particles)], None]) -> None: ...
+    def free_particle_ap(self, func: Callable[[_Pointer[Particles]], None]) -> None: ...
 
     @property
     def N_real(self) -> int: ...
@@ -469,7 +464,7 @@ class Simulation(Structure):
 
 
 class Variation(Structure):
-    _sim: POINTER(Simulation)
+    _sim: _Pointer[Simulation]
     order: int
     index: int
     testparticle: int
@@ -497,7 +492,7 @@ class reb_simulation_integrator_janus(Structure):
     scale_vel: float
     order: int
     recalculate_integer_coordinates_this_timestep: IntBoolean
-    p_int: POINTER(reb_particle_int)
+    p_int: _Pointer[reb_particle_int]
     _allocated_N: int
 
 
@@ -522,7 +517,7 @@ class reb_simulation_integrator_eos(Structure):
 
 
 class reb_simulation_integrator_mercurius(Structure):
-    L: Callable[[POINTER(Simulation), float, float], float]
+    L: Callable[[_Pointer[Simulation], float, float], float]
     hillfac: float
     recalculate_coordinates_this_timestep: IntBoolean
     recalculate_dcrit_this_timestep: IntBoolean
@@ -534,28 +529,28 @@ class reb_simulation_integrator_mercurius(Structure):
     _allocatedN: int
     _allocatedN_additionalforces: int
     _dcrit_allocatedN: int
-    _dcrit: POINTER(float)
-    _particles_backup: POINTER(Particle)
-    _particles_backup_additionalforces: POINTER(Particle)
-    _encounter_map: POINTER(int)
+    _dcrit: _Pointer[float]
+    _particles_backup: _Pointer[Particle]
+    _particles_backup_additionalforces: _Pointer[Particle]
+    _encounter_map: _Pointer[int]
     _com_pos: reb_vec3d
     _com_vel: reb_vec3d
 
 
 class timeval(Structure):
     tv_sec: int
-    tv_sec: int
+    tv_usec: int
 
 
 #TODO: check if ctypes should be used above
 
 class reb_display_data(Structure):
-    r: POINTER(Simulation)
-    r_copy: POINTER(Simulation)
+    r: _Pointer[Simulation]
+    r_copy: _Pointer[Simulation]
     particle_data: c_void_p
     orbit_data: c_void_p
-    particles_copy: POINTER(Particle)
-    p_jh_copy: POINTER(Particle)
+    particles_copy: _Pointer[Particle]
+    p_jh_copy: _Pointer[Particle]
     allocated_N: int
     allocated_N_whfast: int
     opengl_enabled: int

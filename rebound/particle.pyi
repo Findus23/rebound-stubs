@@ -1,8 +1,8 @@
 from ctypes import Structure, c_uint32
 from typing import Any, Optional, List
 
-from rebound import Simulation, Orbit
-from rebound.types import HashType
+from . import Simulation, Orbit
+from .types import HashType
 
 
 class Particle(Structure):

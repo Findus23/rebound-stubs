@@ -1,6 +1,6 @@
 from typing import Optional
 
-from rebound import Particle
+from . import Particle
 
 
 def getParticle(particle: Optional[str], m: Optional[float], x: Optional[float], y: Optional[float], z: Optional[float],

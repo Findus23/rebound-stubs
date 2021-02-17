@@ -4,7 +4,7 @@ from matplotlib.axes import Axes
 from matplotlib.collections import LineCollection
 from matplotlib.figure import Figure
 
-from rebound import Simulation, Particle
+from . import Simulation, Particle
 
 Limits = Tuple[float, float]
 ColorTuple = Tuple[int, int, int]
