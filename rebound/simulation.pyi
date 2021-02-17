@@ -1,6 +1,6 @@
 from collections import MutableMapping
 from ctypes import Structure, _Pointer, c_void_p, c_uint, c_uint32, c_ulong, Array, c_double
-from typing import Any, Optional, Dict, List, Tuple, Callable, Union, Literal, Iterator
+from typing import Any, Optional, Dict, List, Tuple, Callable, Union, Literal, Iterator, overload
 
 from . import Particle
 from .types import HashType, EnumDict, IntBoolean
@@ -560,7 +560,7 @@ class reb_display_data(Structure):
     retina: float
 
 
-ParticleKey = Union[c_uint32, c_uint, c_ulong, str, int, slice]
+ParticleKey = Union[c_uint32, c_uint, c_ulong, str, int]
 
 
 class Particles(MutableMapping):
@@ -568,7 +568,11 @@ class Particles(MutableMapping):
 
     def __init__(self, sim: Simulation) -> None: ...
 
-    def __getitem__(self, key: ParticleKey) -> Union[Particle, List[Particle]]: ...
+    @overload
+    def __getitem__(self, key: ParticleKey) -> Particle: ...
+
+    @overload
+    def __getitem__(self, key: slice) -> List[Particle]: ...
 
     def __setitem__(self, key: ParticleKey, value: Particle) -> None: ...
 
