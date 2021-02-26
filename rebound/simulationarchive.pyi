@@ -1,7 +1,7 @@
 from ctypes import Structure, c_int
 from typing import Any, Optional, Callable, Sequence, Iterator, Literal, Iterable, Tuple, Union
 
-import numpy as np
+import numpy
 
 from . import Simulation
 from .types import IntBoolean
@@ -37,4 +37,4 @@ class SimulationArchive(Structure):
 
     def getSimulations(self, times: Iterable[float], **kwargs: Any) -> Iterator[Simulation]: ...
 
-    def getBezierPaths(self, origin: Union[None, int, Literal["com"]] = ...) -> Tuple[np.ndarray, np.ndarray]: ...
+    def getBezierPaths(self, origin: Union[None, int, Literal["com"]] = ...) -> Tuple[numpy.ndarray, numpy.ndarray]: ...

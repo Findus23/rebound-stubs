@@ -29,19 +29,18 @@ class Particle(Structure):
                  primary: Optional[Particle] = ..., a: Optional[float] = ..., P: Optional[float] = ...,
                  e: Optional[float] = ..., inc: Optional[float] = ..., Omega: Optional[float] = ...,
                  omega: Optional[float] = ..., pomega: Optional[float] = ..., f: Optional[float] = ...,
-                 M: Optional[float] = ..., l: Optional[float] = ..., theta: Optional[float] = ...,
-                 T: Optional[float] = ..., r: Optional[float] = ..., date: Optional[str] = ...,
-                 variation: Optional[str] = ..., variation2: Optional[str] = ..., h: Optional[HashType] = ...,
-                 k: Optional[float] = ..., ix: Optional[float] = ..., iy: Optional[float] = ..., hash: HashType = ...,
-                 jacobi_masses: bool = ...): ...
+                 M: Optional[float] = ..., E: Optional[float] = ..., l: Optional[float] = ...,
+                 theta: Optional[float] = ..., T: Optional[float] = ..., r: Optional[float] = ...,
+                 date: Optional[str] = ..., variation: Optional[str] = ..., variation2: Optional[str] = ...,
+                 h: Optional[HashType] = ..., k: Optional[float] = ..., ix: Optional[float] = ...,
+                 iy: Optional[float] = ..., hash: HashType = ..., jacobi_masses: bool = ...) -> None: ...
 
     def copy(self) -> Particle: ...
 
-    def calculate_orbit(self, primary: Optional[Particle], G: Optional[float]) -> Orbit: ...
+    def calculate_orbit(self, primary: Optional[Particle] = ..., G: Optional[float] = ...) -> Orbit: ...
 
-    def sample_orbit(self, Npts: int, primary: Optional[Particle], trailing: bool,
-                     timespan: Optional[float], useTrueAnomaly: Optional[bool],
-                     duplicateEndpoint: Optional[bool]): ... #TODO: return value
+    def sample_orbit(self, Npts: int = ..., primary: Optional[Particle] = ..., samplingAngle: Optional[str] = ...,
+                     duplicateEndpoint: Optional[bool] = ...) -> Any: ...  #TODO: return value
 
     def __pow__(self, other: Particle) -> Particle: ...
 
@@ -170,7 +169,7 @@ class Particle(Structure):
     def orbit(self) -> Orbit: ...
 
     @property
-    def jacobi_com(self): ...  #TODO: correct typing
+    def jacobi_com(self) -> Any: ...  #TODO: correct typing
 
     @property
     def hash(self) -> c_uint32: ...

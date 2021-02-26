@@ -17,7 +17,7 @@ EOS_TYPES: EnumDict
 BINARY_WARNINGS: List[Tuple[bool, int, str]]
 
 
-class reb_hash__Pointer_pair(Structure):
+class reb_hash_pointer_pair(Structure):
     hash: int
     index: int
 
@@ -169,7 +169,7 @@ class Simulation(Structure):
     var_config: _Pointer[Variation]
     N_active: int
     testparticle_type: int
-    _particle_lookup_table: _Pointer[reb_hash__Pointer_pair]
+    _particle_lookup_table: _Pointer[reb_hash_pointer_pair]
     hash_ctr: int
     N_lookup: int
     allocatedN_lookup: int
@@ -256,9 +256,9 @@ class Simulation(Structure):
     # _extras_cleanup: CFUNCTYPE(None, _Pointer[Simulation])
     extras: c_void_p
 
-    def __new__(cls, *args: Any, **kw: Any)->Simulation: ...
+    def __new__(cls, *args: Any, **kw: Any) -> Simulation: ...
 
-    def __init__(self) -> None: ...
+    def __init__(self, filename: Any = ..., snapshot: Any = ...) -> None: ...
 
     def __repr__(self) -> str: ...
 
@@ -275,7 +275,7 @@ class Simulation(Structure):
 
     visualization: int = ...
 
-    def getWidget(self, **kwargs: Any): ...
+    def getWidget(self, **kwargs: Any) -> Any: ...  #TODO: return type
 
     def refreshWidgets(self) -> None: ...
 
@@ -411,7 +411,7 @@ class Simulation(Structure):
     def convert_particle_units(self, *args: Any) -> None: ...
 
     def add_variation(self, order: int = ..., first_order: Optional[Variation] = ...,
-                      first_order_2: Optional[Variation] = ..., testparticle: int = ...): ...
+                      first_order_2: Optional[Variation] = ..., testparticle: int = ...)->Variation: ...
 
     def init_megno(self, seed: Optional[int] = ...) -> None: ...
 
@@ -435,8 +435,7 @@ class Simulation(Structure):
     def add_particles_ascii(self, s: str) -> None: ...
 
     def calculate_orbits(self, primary: Optional[Particle] = ..., jacobi_masses: bool = ...,
-                         # deprecated options:
-                         # heliocentric: Optional[bool] = ..., barycentric: Optional[bool] = ...
+                         heliocentric: Optional[bool] = ..., barycentric: Optional[bool] = ...
                          ) -> Orbit: ...
 
     def calculate_com(self, first: int = ..., last: Optional[int] = ...) -> Particle: ...
