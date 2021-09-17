@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Optional
 
 from . import Particle
@@ -8,5 +9,5 @@ def getParticle(particle: Optional[str] = ..., m: Optional[float] = ..., x: Opti
                 vy: Optional[float] = ..., vz: Optional[float] = ..., primary: Optional[float] = ...,
                 a: Optional[float] = ..., anom: Optional[float] = ..., e: Optional[float] = ...,
                 omega: Optional[float] = ..., inc: Optional[float] = ..., Omega: Optional[float] = ...,
-                MEAN: Optional[float] = ..., date: Optional[float] = ..., plane: str = ...,
+                MEAN: Optional[float] = ..., date: Optional[str|datetime] = ..., plane: str = ...,
                 hash: int = ...) -> Particle: ...
