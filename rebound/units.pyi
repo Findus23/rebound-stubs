@@ -1,10 +1,10 @@
 from ctypes import c_uint32
-from typing import Dict, Sequence
+from typing import Dict, Sequence, Optional
 
 from . import Particle
 
 
-def hash_to_unit(hash: c_uint32) -> str: ...
+def hash_to_unit(hash: c_uint32) -> Optional[str]: ...
 
 
 G_SI: float
