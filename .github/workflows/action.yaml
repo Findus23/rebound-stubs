@@ -1,0 +1,16 @@
+name: typecheck
+on: [push]
+jobs:
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+          architecture: 'x64'
+      - run: git clone https://github.com/hannorein/rebound rebound-src
+      - run: pip install mypy matplotlib
+      - run: pip install git+https://github.com/Findus23/retype.git@skip-setters
+      - run: retype -p rebound -t retyped/rebound rebound-src/rebound
+      - run: cd retyped && mypy rebound || true
