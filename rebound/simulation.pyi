@@ -169,6 +169,7 @@ class Simulation(Structure):
     var_config: _Pointer[Variation]
     N_active: int
     testparticle_type: int
+    testparticle_hidewarnings: int
     _particle_lookup_table: _Pointer[reb_hash_pointer_pair]
     hash_ctr: int
     N_lookup: int
@@ -245,6 +246,7 @@ class Simulation(Structure):
     ri_mercurius: reb_simulation_integrator_mercurius
     ri_janus: reb_simulation_integrator_janus
     ri_eos: reb_simulation_integrator_eos
+    ri_bs: reb_simulation_integrator_bs
     # _additional_forces: CFUNCTYPE(None, _Pointer[Simulation])
     # _pre_timestep_modifications: CFUNCTYPE(None, _Pointer[Simulation])
     # _post_timestep_modifications: CFUNCTYPE(None, _Pointer[Simulation])
@@ -321,6 +323,8 @@ class Simulation(Structure):
     def __itruediv__(self, other: float) -> Simulation: ...
 
     def multiply(self, scalar_pos: float, scalar_vel: float) -> None: ...
+
+    def create_ode(self, length: int, needs_nbody: bool) -> ODE: ...
 
     def status(self) -> None: ...
 
@@ -549,6 +553,31 @@ class reb_simulation_integrator_mercurius(Structure):
     _com_vel: reb_vec3d
 
     def __repr__(self) -> str: ...
+
+
+class ODE(Structure):
+    length: int
+    allocatedN: int
+    needs_nbody: int
+    y: _Pointer[float]
+    r: _Pointer[Simulation]
+    ref: c_void_p
+
+    @property
+    def derivatives(self) -> None: ...
+
+    @derivatives.setter
+    def derivatives(self, func: Callable[[_Pointer[ODE], _Pointer[float], _Pointer[float], float], None]) -> None: ...
+
+    def update_particles(self) -> None: ...
+
+
+class reb_simulation_integrator_bs(Structure):
+    eps_abs: float
+    eps_rel: float
+    min_dt: float
+    max_dt: float
+    dt_proposed: float
 
 
 class timeval(Structure):
